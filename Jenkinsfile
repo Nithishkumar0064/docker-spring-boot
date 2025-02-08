@@ -2,8 +2,11 @@ pipeline {
     agent any
 
     environment {
-        registry = "050752624842.dkr.ecr.us-east-1.amazonaws.com/my-docker-repo"
+        ECR_REGISTRY = '050752624842.dkr.ecr.us-east-1.amazonaws.com'
+        REPO_NAME = 'my-docker-repo'
+        IMAGE_TAG = "${BUILD_NUMBER}"  // Automatically use Jenkins build number
     }
+    
     stages {
         stage('Checkout') {
             steps {
@@ -25,12 +28,22 @@ pipeline {
             }
         }
         
-        stage ("Push to ECR") {
+        stage ("Login to ECR") {
             steps {
                 script {
                     sh "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 050752624842.dkr.ecr.us-east-1.amazonaws.com"
-                    sh 'docker push 050752624842.dkr.ecr.us-east-1.amazonaws.com/my-docker-repo:$BUILD_NUMBER'
+            
                     
+                }
+            }
+        }
+
+         stage('Push Docker Image to ECR') {
+            steps {
+                script {
+                    docker.withRegistry("https://${ECR_REGISTRY}") {
+                        sh "docker push ${ECR_REGISTRY}/${REPO_NAME}:${IMAGE_TAG}"
+                    }
                 }
             }
         }

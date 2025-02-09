@@ -35,15 +35,14 @@ pipeline {
             }
         }
         
-        stage('Building image') {
-             agent {label 'sonar'}
-      steps{
-        script {
-          dockerImage = docker.build registry 
-          dockerImage.tag("$BUILD_NUMBER")
+       stage ("Build Image") {
+            agent {label 'sonar'}
+            steps {
+                script {
+                    docker.build registry
+                }
+            }
         }
-      }
-    }
         
         stage ("Push to ECR") {
              agent {label 'sonar'}

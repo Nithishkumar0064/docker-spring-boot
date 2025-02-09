@@ -25,7 +25,7 @@ pipeline {
                     dir('src') { 
                         sh '''
                         $SCANNER_HOME/bin/sonar-scanner \
-                        -Dsonar.java.binaries=target/classes \
+                        -Dsonar.java.binaries=main \
                         -Dsonar.projectName="$repoName" \
                         -Dsonar.projectKey="my_project_key"
                         '''

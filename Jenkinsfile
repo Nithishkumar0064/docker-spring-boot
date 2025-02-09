@@ -35,13 +35,14 @@ pipeline {
             }
         }
         
-        stage ("Build Image") {
-            steps {
-                script {
-                    docker.build registry
-                }
-            }
+        stage('Building image') {
+      steps{
+        script {
+          dockerImage = docker.build registry 
+          dockerImage.tag("$BUILD_NUMBER")
         }
+      }
+    }
         
         stage ("Push to ECR") {
             steps {

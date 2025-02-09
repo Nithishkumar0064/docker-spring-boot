@@ -3,11 +3,25 @@ pipeline {
 
     environment {
         registry = "050752624842.dkr.ecr.us-east-1.amazonaws.com/my-docker-repo"
+        SCANNER_HOME=tool 'sonar-scanner'
     }
     stages {
         stage('Checkout') {
             steps {
                git 'https://github.com/akannan1087/docker-spring-boot.git'
+            }
+        }
+        stage("Sonarqube Analysis ") {
+            steps {
+                withSonarQubeEnv('sonar-server') {
+                    dir('src') { 
+                        sh '''
+                        $SCANNER_HOME/bin/sonar-scanner \
+                        -Dsonar.projectName="$repoName" \
+                        -Dsonar.projectKey="$repoName"
+                        '''
+                    }
+                }
             }
         }
         

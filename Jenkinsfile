@@ -14,6 +14,7 @@ pipeline {
         
         stage ("Build JAR") {
             steps {
+                sh "mvn clean compile"
                 sh "mvn clean install"
             }
         }
@@ -24,6 +25,7 @@ pipeline {
                     dir('src') { 
                         sh '''
                         $SCANNER_HOME/bin/sonar-scanner \
+                        -Dsonar.java.binaries=target/classes \
                         -Dsonar.projectName="$repoName" \
                         -Dsonar.projectKey="my_project_key"
                         '''

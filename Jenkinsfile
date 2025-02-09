@@ -11,6 +11,13 @@ pipeline {
                git 'https://github.com/akannan1087/docker-spring-boot.git'
             }
         }
+        
+        stage ("Build JAR") {
+            steps {
+                sh "mvn clean install"
+            }
+        }
+
         stage("Sonarqube Analysis ") {
             steps {
                 withSonarQubeEnv('sonar-server') {
@@ -22,12 +29,6 @@ pipeline {
                         '''
                     }
                 }
-            }
-        }
-        
-        stage ("Build JAR") {
-            steps {
-                sh "mvn clean install"
             }
         }
         

@@ -20,6 +20,7 @@ pipeline {
         }
 
         stage("Sonarqube Analysis ") {
+            agent {label 'sonar'}
             steps {
                 withSonarQubeEnv('sonar-server') {
                     dir('src') { 

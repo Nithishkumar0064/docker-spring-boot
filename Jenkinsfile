@@ -18,7 +18,7 @@ pipeline {
                         sh '''
                         $SCANNER_HOME/bin/sonar-scanner \
                         -Dsonar.projectName="$repoName" \
-                        -Dsonar.projectKey="$repoName"
+                        -Dsonar.projectKey="my_project_key"
                         '''
                     }
                 }

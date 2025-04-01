@@ -43,7 +43,7 @@ pipeline {
            stage ('Helm Deploy') {
           steps {
             script {
-                sh "helm upgrade first --install jan-25-chart --namespace helm-deployment --set image.tag=latest"
+                sh "helm upgrade first --install new-chart --namespace helm-deployment --create-namespace --set image.tag=latest"
                 }
             }
         }

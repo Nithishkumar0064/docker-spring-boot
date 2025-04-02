@@ -16,9 +16,7 @@ pipeline {
                 
                 sh "mvn clean install"
             }
-        }
-
-        
+        } 
         
        stage ("Build Image") {
             steps {
@@ -37,10 +35,8 @@ pipeline {
                 }
             }
         }
-        
-        
                 
-           stage ('Helm Deploy') {
+      stage ('Helm Deploy') {
           steps {
             script {
                 sh "helm upgrade first --install jan-25-chart --namespace helm-deployment --create-namespace --set image.tag=latest"
